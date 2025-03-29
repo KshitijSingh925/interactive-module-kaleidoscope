@@ -59,42 +59,53 @@ const Timeline = () => {
     setDays(updatedDays);
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: 'numeric'
+    }).format(date);
+  };
+
   const formatTimelineDisplay = () => {
     if (days.length === 1) {
-      return `${days[0].date} (${days[0].startTime} - ${days[0].endTime})`;
+      return `${formatDate(days[0].date)}`;
     }
-    return `${days[0].date} - ${days[days.length - 1].date}`;
+    return `${formatDate(days[0].date)} - ${formatDate(days[days.length - 1].date)}`;
   };
 
   return (
-    <div className="p-4 bg-festai-pink rounded-lg mb-4">
+    <div className="festai-pink-card mb-4 animate-fade-in">
       <div className="flex items-center">
-        <Clock className="h-5 w-5 mr-2" />
+        <div className="festai-icon">
+          <Clock className="h-5 w-5" />
+        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button variant="link" className="text-lg font-medium p-0 h-auto">
+            <Button variant="link" className="text-lg font-medium p-0 h-auto ml-3">
               Timeline: {formatTimelineDisplay()}
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-lg">
+          <DialogContent className="sm:max-w-md md:max-w-lg w-[95vw] max-h-[90vh] overflow-hidden">
             <DialogHeader>
-              <DialogTitle>Set Event Timeline</DialogTitle>
+              <DialogTitle className="text-xl font-bold">Set Event Timeline</DialogTitle>
             </DialogHeader>
-            <div className="max-h-[60vh] overflow-y-auto">
+            <div className="max-h-[60vh] overflow-y-auto pr-1">
               {days.map((day, index) => (
-                <div key={index} className="space-y-2 mb-4">
+                <div key={index} className="space-y-2 mb-6 bg-background/40 p-4 rounded-lg">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-sm font-medium">Day {index + 1}</h3>
+                    <h3 className="text-sm font-medium bg-primary/10 px-2 py-1 rounded">Day {index + 1}</h3>
                     <Button 
                       variant="ghost" 
                       size="sm" 
                       onClick={() => handleRemoveDay(index)}
-                      className="text-red-500 h-8"
+                      className="text-destructive hover:bg-destructive/10 h-8"
                     >
                       Remove
                     </Button>
                   </div>
-                  <div className="grid grid-cols-1 gap-2">
+                  <div className="grid grid-cols-1 gap-3">
                     <div>
                       <label htmlFor={`date-${index}`} className="block mb-1 text-sm font-medium">
                         Date
@@ -107,7 +118,7 @@ const Timeline = () => {
                         className="w-full"
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label htmlFor={`startTime-${index}`} className="block mb-1 text-sm font-medium">
                           Start Time
@@ -134,13 +145,13 @@ const Timeline = () => {
                       </div>
                     </div>
                   </div>
-                  {index < days.length - 1 && <Separator className="my-2" />}
+                  {index < days.length - 1 && <Separator className="my-4" />}
                 </div>
               ))}
               <Button
                 variant="outline"
                 onClick={handleAddDay}
-                className="w-full mt-2"
+                className="w-full mt-4 border-dashed"
               >
                 Add Day
               </Button>
@@ -153,15 +164,16 @@ const Timeline = () => {
       </div>
       
       {showDetails && (
-        <div className="mt-3 text-sm bg-white bg-opacity-30 p-2 rounded">
-          <h4 className="font-semibold mb-1">Schedule:</h4>
-          <ul className="space-y-1">
+        <div className="mt-4 text-sm bg-white bg-opacity-40 p-3 rounded-lg shadow-sm">
+          <h4 className="font-semibold mb-2 text-left">Event Schedule:</h4>
+          <div className="grid gap-2 max-h-[200px] overflow-y-auto pr-1">
             {days.map((day, index) => (
-              <li key={index}>
-                Day {index + 1}: {day.date} ({day.startTime} - {day.endTime})
-              </li>
+              <div key={index} className="text-left bg-white bg-opacity-50 p-2 rounded flex justify-between items-center">
+                <span className="font-medium">{formatDate(day.date)}</span>
+                <span className="text-gray-600">{day.startTime} - {day.endTime}</span>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
     </div>

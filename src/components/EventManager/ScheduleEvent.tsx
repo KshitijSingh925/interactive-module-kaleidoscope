@@ -20,36 +20,40 @@ const ScheduleEvent = () => {
   };
 
   return (
-    <div className="p-4 bg-festai-pink rounded-lg mb-4 flex items-center">
-      <Calendar className="h-5 w-5 mr-2" />
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogTrigger asChild>
-          <Button variant="link" className="text-lg font-medium p-0 h-auto">
-            Schedule Event: {eventName}
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Schedule an Event</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 mt-4">
-            <div>
-              <label htmlFor="eventName" className="block mb-2 text-sm font-medium">
-                Event Name
-              </label>
-              <Input
-                id="eventName"
-                value={eventName}
-                onChange={(e) => setEventName(e.target.value)}
-                className="w-full"
-              />
-            </div>
-            <Button onClick={handleSchedule} className="w-full">
-              Schedule Event
+    <div className="festai-pink-card mb-4 animate-fade-in">
+      <div className="flex items-center">
+        <div className="festai-icon">
+          <Calendar className="h-5 w-5" />
+        </div>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="link" className="text-lg font-medium p-0 h-auto ml-3">
+              Schedule Event: {eventName}
             </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md w-[95vw]">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold">Schedule an Event</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 mt-4">
+              <div>
+                <label htmlFor="eventName" className="block mb-2 text-sm font-medium">
+                  Event Name
+                </label>
+                <Input
+                  id="eventName"
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                  className="w-full"
+                />
+              </div>
+              <Button onClick={handleSchedule} className="w-full">
+                Schedule Event
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 };

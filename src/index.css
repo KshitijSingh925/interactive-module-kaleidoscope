@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,20 +36,18 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --festai-gradient-start: 355 100% 94%;
+    --festai-gradient-end: 355 100% 88%;
+    --festai-gray-gradient-start: 220 20% 94%;
+    --festai-gray-gradient-end: 220 20% 88%;
   }
 
   .dark {
@@ -87,6 +86,11 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --festai-gradient-start: 355 70% 30%;
+    --festai-gradient-end: 355 70% 20%;
+    --festai-gray-gradient-start: 220 20% 25%;
+    --festai-gray-gradient-end: 220 20% 15%;
   }
 }
 
@@ -97,5 +101,40 @@
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+  }
+
+  html {
+    @apply scroll-smooth;
   }
 }
+
+@layer components {
+  .festai-card {
+    @apply relative rounded-xl p-5 shadow-lg transition-all duration-300 hover:shadow-xl;
+  }
+  
+  .festai-pink-card {
+    @apply festai-card bg-gradient-to-b from-[hsl(var(--festai-gradient-start))] to-[hsl(var(--festai-gradient-end))];
+  }
+  
+  .festai-gray-card {
+    @apply festai-card bg-gradient-to-b from-[hsl(var(--festai-gray-gradient-start))] to-[hsl(var(--festai-gray-gradient-end))];
+  }
+  
+  .festai-icon {
+    @apply flex h-8 w-8 items-center justify-center rounded-full bg-white bg-opacity-50 text-festai-darkgray shadow-sm;
+  }
+}
+
+/* Additional custom styles */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ... keep existing code */
